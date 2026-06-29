@@ -1,0 +1,93 @@
+# Dual-Agent OpenSpec Workflow
+
+Use this workflow when Claude Code and OpenCode should cooperate on the same OpenSpec change.
+
+## Roles
+
+- Claude Code / Opus owns exploration, proposal, plan confirmation, implementation review, final acceptance, sync, and archive.
+- OpenCode / GPT-5.5 owns adversarial plan review, apply/implementation, targeted fixes, PR warning fixes, and CI failure fixes.
+- OpenSpec owns shared state through `openspec/changes/<change>/`.
+- Review handoffs live in `openspec/changes/<change>/reviews/`.
+
+## Commands
+
+Claude Code:
+
+```text
+/dual-opus explore <idea>
+/dual-opus propose <change-or-request>
+/dual-opus confirm-plan <change>
+/dual-opus review-impl <change>
+/dual-opus final-review <change>
+/dual-opus sync <change>
+/dual-opus archive <change>
+```
+
+OpenCode:
+
+```text
+/dual-gpt review-plan <change>
+/dual-gpt apply <change>
+/dual-gpt fix <change>
+/dual-gpt pr-fix <change>
+/dual-gpt ci-fix <change>
+```
+
+## OpenSpec Mapping
+
+- `/dual-opus explore` maps to `/opsx:explore`.
+- `/dual-opus propose` maps to `/opsx:propose`.
+- `/dual-gpt apply` maps to `/opsx:apply`.
+- `/dual-opus sync` maps to `/opsx:sync`.
+- `/dual-opus archive` maps to `/opsx:archive`.
+- Review and fix commands are custom gates inserted between OpenSpec actions.
+
+## Local Workflow
+
+```text
+Claude Code: /dual-opus explore <idea>
+Claude Code: /dual-opus propose <request>
+OpenCode:    /dual-gpt review-plan <change>
+Claude Code: /dual-opus confirm-plan <change>
+OpenCode:    /dual-gpt apply <change>
+Claude Code: /dual-opus review-impl <change>
+OpenCode:    /dual-gpt fix <change>       # only if Opus requests fixes
+Claude Code: /dual-opus final-review <change>
+```
+
+Do not run `sync` or `archive` yet if the work will go through a PR.
+
+## PR Workflow
+
+```text
+Open PR
+Codex: code-review on PR
+Sonar: PR annotations, warnings, and quality gate
+OpenCode:    /dual-gpt pr-fix <change>    # accepted Codex/Sonar/PR annotation findings
+Claude Code: /dual-opus final-review <change>
+OpenCode:    /dual-gpt ci-fix <change>    # only if CI fails
+Claude Code: /dual-opus final-review <change>
+Claude Code: /dual-opus sync <change>
+Claude Code: /dual-opus archive <change>
+Merge PR
+```
+
+## Boundary Rule
+
+Only run `sync` and `archive` after Codex PR review, accepted fixes, CI, and Opus final confirmation are complete.
+
+## View
+
+To inspect OpenSpec changes visually, run this in a terminal from the repo root:
+
+```bash
+openspec view
+```
+
+Useful inspection commands:
+
+```bash
+openspec list
+openspec status --change <change>
+openspec show <change>
+```
