@@ -8,6 +8,7 @@ Reusable agent workflow assets for Claude Code and OpenCode.
 - `claude/commands/dual-opus.md` - Claude Code command for Opus-led OpenSpec review workflow.
 - `opencode/commands/dual-gpt.md` - OpenCode command for GPT-5.5 implementation/fix workflow.
 - `docs/dual-agent-workflow.md` - documented two-stage local + PR workflow.
+- `workflow.md` - copy-pasteable example workflow using `add-dark-mode`.
 
 ## Install
 
@@ -38,3 +39,5 @@ openspec init --tools claude,opencode
 ```
 
 Then use the dual workflow documented in `docs/dual-agent-workflow.md`.
+
+For a concrete example, see `workflow.md`.

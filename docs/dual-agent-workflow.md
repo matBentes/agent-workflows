@@ -57,6 +57,15 @@ Claude Code: /dual-opus final-review <change>
 
 Do not run `sync` or `archive` yet if the work will go through a PR.
 
+## Review Skill
+
+Claude Code review phases use the global `thermo-nuclear-code-quality-review` skill:
+
+- `/dual-opus review-impl <change>` uses it for the first implementation review.
+- `/dual-opus final-review <change>` uses it for final code-quality approval.
+
+The skill is intentionally strict. It should block structural regressions, spaghetti branching, unnecessary abstractions, avoidable file-size growth, boundary leaks, and missed opportunities for simpler code-judo restructuring.
+
 ## PR Workflow
 
 ```text

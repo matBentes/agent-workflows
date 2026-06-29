@@ -76,6 +76,8 @@ Write `openspec/changes/<change>/reviews/plan-opus-confirmation.md` with accepte
 
 Read the OpenSpec artifacts, `reviews/plan-opus-confirmation.md`, `reviews/implementation-gpt-5.5-summary.md`, and the current diff.
 
+Use the global `thermo-nuclear-code-quality-review` skill for this review. Apply its strict maintainability bar: look for structural regressions, spaghetti branching, unnecessary abstractions, file-size growth, boundary leaks, and missed code-judo simplifications.
+
 Write `openspec/changes/<change>/reviews/implementation-opus-review.md` with one verdict:
 
 - `approved`
@@ -97,6 +99,8 @@ If no fixes are needed, tell the user:
 ## final-review
 
 Review OpenSpec artifacts, review files, current diff, tests, PR feedback, Sonar feedback, and CI evidence.
+
+Use the global `thermo-nuclear-code-quality-review` skill when evaluating code quality and maintainability. Do not approve merely because tests pass if the implementation creates avoidable structural debt.
 
 Write `openspec/changes/<change>/reviews/final-opus-confirmation.md` with one verdict:
 
