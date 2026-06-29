@@ -30,6 +30,16 @@ Rules:
 - Put handoff files in `openspec/changes/<change>/reviews/`.
 - Do not edit implementation files during review phases unless correcting OpenSpec artifacts.
 - Run relevant local checks before claiming approval.
+- Use the Review Criteria below during implementation review and final review.
+
+Review Criteria:
+
+- Plan/spec alignment: implementation matches approved scope, non-goals, and accepted decisions without speculative behavior.
+- Behavioral correctness: user-visible behavior, API contracts, persistence, and error handling match requirements and existing architecture.
+- Simplicity, readability, DRY/cohesion, useful SOLID boundaries, and minimal dependencies.
+- Safety: invalid input fails fast; security-sensitive behavior, data/schema changes, and migrations are safe and explicitly approved.
+- Tests and verification: relevant checks and skipped-check reasons are recorded with evidence.
+- Technical debt: touched code stays at least as maintainable as before.
 
 Phase behavior:
 
@@ -76,7 +86,7 @@ Write `openspec/changes/<change>/reviews/plan-opus-confirmation.md` with accepte
 
 Read the OpenSpec artifacts, `reviews/plan-opus-confirmation.md`, `reviews/implementation-gpt-5.5-summary.md`, and the current diff.
 
-Use the global `thermo-nuclear-code-quality-review` skill for this review. Apply its strict maintainability bar: look for structural regressions, spaghetti branching, unnecessary abstractions, file-size growth, boundary leaks, and missed code-judo simplifications.
+Use the global `thermo-nuclear-code-quality-review` skill for this review. Apply its strict maintainability bar plus the Review Criteria above: look for structural regressions, spaghetti branching, unnecessary abstractions, file-size growth, boundary leaks, missed code-judo simplifications, and plan/spec drift.
 
 Write `openspec/changes/<change>/reviews/implementation-opus-review.md` with one verdict:
 
@@ -100,7 +110,7 @@ If no fixes are needed, tell the user:
 
 Review OpenSpec artifacts, review files, current diff, tests, PR feedback, Sonar feedback, and CI evidence.
 
-Use the global `thermo-nuclear-code-quality-review` skill when evaluating code quality and maintainability. Do not approve merely because tests pass if the implementation creates avoidable structural debt.
+Use the global `thermo-nuclear-code-quality-review` skill and the Review Criteria above when evaluating code quality and maintainability. Do not approve merely because tests pass if the implementation creates avoidable structural debt or drifts from the approved plan/spec.
 
 Write `openspec/changes/<change>/reviews/final-opus-confirmation.md` with one verdict:
 

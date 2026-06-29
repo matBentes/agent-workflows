@@ -25,10 +25,21 @@ Rules:
 - Put handoff files in `openspec/changes/<change>/reviews/`.
 - During `review-plan`, do not edit implementation files.
 - During fix phases, change only what is needed for accepted findings or failures.
+- During `review-plan`, install/use Matt Pocock's `grill-with-docs` skill when available: `npx skills add https://github.com/mattpocock/skills --skill grill-with-docs`.
+- During apply and fix phases, use the Review Criteria below for self-review before handoff.
+
+Review Criteria:
+
+- Plan/spec alignment: implementation matches approved scope, non-goals, and accepted decisions without speculative behavior.
+- Behavioral correctness: user-visible behavior, API contracts, persistence, and error handling match requirements and existing architecture.
+- Simplicity, readability, DRY/cohesion, useful SOLID boundaries, and minimal dependencies.
+- Safety: invalid input fails fast; security-sensitive behavior, data/schema changes, and migrations are safe and explicitly approved.
+- Tests and verification: relevant checks and skipped-check reasons are recorded with evidence.
+- Technical debt: touched code stays at least as maintainable as before.
 
 ## review-plan
 
-Read proposal, specs, design, tasks, and relevant project docs.
+Read proposal, specs, design, tasks, and relevant project docs. Use `grill-with-docs` to challenge assumptions, missing docs, unclear requirements, incomplete acceptance criteria, and plan/spec gaps before approving.
 
 Write `openspec/changes/<change>/reviews/plan-gpt-5.5.md` with:
 
@@ -45,7 +56,7 @@ Read OpenSpec artifacts and `reviews/plan-opus-confirmation.md`, then query appl
 openspec instructions apply --change "<change>" --json
 ```
 
-Implement tasks, check off `tasks.md` only after code and verification are done, and write `reviews/implementation-gpt-5.5-summary.md`.
+Implement tasks, self-review against the Review Criteria, check off `tasks.md` only after code and verification are done, and write `reviews/implementation-gpt-5.5-summary.md`.
 
 Tell the user:
 
@@ -55,7 +66,7 @@ Tell the user:
 
 ## fix
 
-Read Opus review files and apply only accepted fixes. Run relevant checks and write `reviews/fixes-gpt-5.5.md`.
+Read Opus review files and apply only accepted fixes. Preserve the Review Criteria, run relevant checks, and write `reviews/fixes-gpt-5.5.md`.
 
 Tell the user:
 
@@ -67,7 +78,7 @@ Tell the user:
 
 Inspect pasted PR feedback, `gh` if available, Codex review findings, Sonar warnings, GitHub review comments, and non-failing annotations.
 
-Fix only technically valid findings accepted by the user or Opus. Write `reviews/pr-gpt-5.5.md`.
+Fix only technically valid findings accepted by the user or Opus. Preserve the Review Criteria and write `reviews/pr-gpt-5.5.md`.
 
 Tell the user:
 
@@ -77,7 +88,7 @@ Tell the user:
 
 ## ci-fix
 
-Fix only failing required checks: failed tests, builds, lint, failed Sonar quality gates, and failed CI jobs. Write `reviews/ci-gpt-5.5.md`.
+Fix only failing required checks: failed tests, builds, lint, failed Sonar quality gates, and failed CI jobs. Stay within approved scope, preserve the Review Criteria, and write `reviews/ci-gpt-5.5.md`.
 
 Tell the user:
 
